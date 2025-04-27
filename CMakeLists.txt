@@ -33,10 +33,6 @@ enable_testing()
 #add_subdirectory(source/UniversalServerUnits/tests_UniversalServerUnits_readFromSocket)
 #add_subdirectory(source/UniversalServerUnits/tests_UniversalServerUnits_writeToSocket)
 #add_subdirectory(source/UniversalServerUnits/tests_UniversalServerUnits_server)
-#add_subdirectory(source/ResultDisplayCore/tests)
-#add_subdirectory(source/TransformationCore/tests_foo)
-#add_subdirectory(source/TransformationCore/tests)
-
 
 # Теперь можно ссылаться на цели
 #add_custom_target(test_1 COMMAND ${CMAKE_CTEST_COMMAND} -R "Exceptions_tests" --output-on-failure VERBATIM)
@@ -60,39 +56,30 @@ enable_testing()
 #add_custom_target(test_7 COMMAND ${CMAKE_CTEST_COMMAND} -R "UniversalServerUnits_server_tests" --output-on-failure VERBATIM)
 #add_dependencies(test_7 UniversalServerUnits_server_tests)
 
-#add_custom_target(test_8 COMMAND ${CMAKE_CTEST_COMMAND} -R "ResultDisplayCore_tests" --output-on-failure VERBATIM)
-#add_dependencies(test_8 ResultDisplayCore_tests)
-
-#add_custom_target(test_9 COMMAND ${CMAKE_CTEST_COMMAND} -R "foo_tests" --output-on-failure VERBATIM)
-#add_dependencies(test_9 foo_tests)
-
-# пользователь
-add_executable(UserTerminal.out
-    source/UserTerminal/main.cpp
-    source/UserTerminal/UserTerminal.cpp
-    source/UniversalServerUnits/utils.cpp
-    source/UniversalServerUnits/Exceptions.cpp
-    source/UniversalServerUnits/SocketWrapper.cpp
-    source/UniversalServerUnits/UniversalServer.cpp
-    source/UniversalServerUnits/UniversalServerUnits.cpp)
-
-target_include_directories(UserTerminal.out PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/
-    ${CMAKE_CURRENT_SOURCE_DIR}/source
-    ${CMAKE_CURRENT_SOURCE_DIR}/source/UniversalServerUnits
-    ${CMAKE_CURRENT_SOURCE_DIR}/source/UserTerminal)
-#add_dependencies(UserTerminal.out test_1 test_2 test_3 test_4 test_5 test_6 test_7 test_8 test_9)
-
-# Сервер преобразование
-add_executable(SystemLoadServer.out
-    source/SystemLoadCore/foo.cpp
-    source/SystemLoadCore/main.cpp
-    # source/SystemLoadCore/TransformationCore.cpp
-    source/UniversalServerUnits/utils.cpp
-    source/UniversalServerUnits/Exceptions.cpp
-    source/UniversalServerUnits/SocketWrapper.cpp
-    source/UniversalServerUnits/UniversalServer.cpp
-    source/UniversalServerUnits/UniversalServerUnits.cpp)
+# Сервер информирования
+if(APPLE)
+    add_executable(SystemLoadServer.out
+        source/SystemLoadCore/main.cpp
+        source/SystemLoadCore/SysInfoMac.cpp
+        source/SystemLoadCore/SystemLoad.cpp
+        source/SystemLoadCore/SystemLoadCore.cpp
+        source/UniversalServerUnits/utils.cpp
+        source/UniversalServerUnits/Exceptions.cpp
+        source/UniversalServerUnits/SocketWrapper.cpp
+        source/UniversalServerUnits/UniversalServer.cpp
+        source/UniversalServerUnits/UniversalServerUnits.cpp)
+else()
+    add_executable(SystemLoadServer.out
+        source/SystemLoadCore/main.cpp
+        source/SystemLoadCore/SysInfoUbuntu.cpp
+        source/SystemLoadCore/SystemLoad.cpp
+        source/SystemLoadCore/SystemLoadCore.cpp
+        source/UniversalServerUnits/utils.cpp
+        source/UniversalServerUnits/Exceptions.cpp
+        source/UniversalServerUnits/SocketWrapper.cpp
+        source/UniversalServerUnits/UniversalServer.cpp
+        source/UniversalServerUnits/UniversalServerUnits.cpp)
+endif()
 
 target_include_directories(SystemLoadServer.out PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/
