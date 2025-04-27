@@ -15,30 +15,30 @@
 #include <boost/type_index.hpp>
 
 BOOST_FUSION_DEFINE_STRUCT(
-	(pkg), Settings,
-	( int, period, -1 )
+	(pkg), Setting,
+	( int, period )
 )
 
 BOOST_FUSION_DEFINE_STRUCT(
-	(pkg), Metrics,
+	(pkg), Metric,
 	( std::string, type )
     ( std::vector<std::string>, spec )
     ( std::vector<int>, ids )
 )
 
 BOOST_FUSION_DEFINE_STRUCT(
-	(pkg), Outputs,
+	(pkg), Output,
 	( std::string, type )
 	( std::string, path )
 	( std::string, ip )
-    ( int, port, -1 )
+    ( int, port )
 )
 
 BOOST_FUSION_DEFINE_STRUCT(
-	(pkg), TransformMessage,
-    ( Settings, settings )
-    ( std::vector<Metrics>, metrics )
-    ( std::vector<Outputs>, outputs )
+	(pkg), SystemSetting,
+    ( pkg::Setting, setting )
+    ( std::vector<pkg::Metric>, metrics )
+    ( std::vector<pkg::Output>, outputs )
 )
 
 // Структура для возвращения данных о системе
